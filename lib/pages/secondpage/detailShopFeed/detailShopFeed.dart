@@ -1,7 +1,6 @@
 import 'package:bikers/api/secondpage/shopApi.dart';
 import 'package:bikers/authentication/user.dart';
 import 'package:bikers/pages/chatting/chat.dart';
-import 'package:bikers/pages/chatting/chat2.dart';
 import 'package:bikers/pages/secondpage/regionAndCategory.dart';
 import 'package:bikers/shared/widget/likeIcon.dart';
 import 'package:bikers/shared/passedTime.dart';
@@ -117,8 +116,6 @@ class _DetailShopFeedState extends State<DetailShopFeed>
   Widget _scrollableImageView() {
     return Stack(children: [
       Container(
-          child: Hero(
-        tag: widget.item.goodsId,
         child: CarouselSlider(
           options: CarouselOptions(
               height: size.width,
@@ -131,7 +128,7 @@ class _DetailShopFeedState extends State<DetailShopFeed>
               }),
           items: carouselItemList,
         ),
-      )),
+      ),
       Positioned(
           bottom: 0,
           left: 0,
@@ -200,7 +197,10 @@ class _DetailShopFeedState extends State<DetailShopFeed>
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.to(() => Chat2(goodsId: widget.item.goodsId,sellerId: widget.item.writerId,userId: user.uid));
+                    Get.to(() => ChatPage(
+                        goodsId: widget.item.goodsId,
+                        sellerId: widget.item.writerId,
+                        userId: user.uid));
                   },
                   child: Text("거래하기"),
                 )

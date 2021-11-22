@@ -9,6 +9,7 @@ import 'package:bikers/shared/passedTime.dart';
 import 'package:bikers/shared/widget/speedDial.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -26,9 +27,7 @@ class SecondApp extends StatefulWidget {
 }
 
 class _SecondAppState extends State<SecondApp>
-//AutomaticKeepAliveClientMixin와 Ticker같이 쓰려면 어떻게 해야하는지 확인
-    //with AutomaticKeepAliveClientMixin {
-      with TickerProviderStateMixin{
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   Shop? _lastDocument;
   final PagingController _pagingController = PagingController(firstPageKey: 0);
   int _pageSize = 12;
@@ -98,8 +97,8 @@ class _SecondAppState extends State<SecondApp>
     user = Provider.of<Users?>(context);
   }
 
-  // @override
-  // bool get wantKeepAlive => true;
+  @override
+  bool get wantKeepAlive => true;
 
   Future<void> _fetchPage(int pageKey) async {
     try {
@@ -120,7 +119,7 @@ class _SecondAppState extends State<SecondApp>
 
   @override
   Widget build(BuildContext context) {
-    //super.build(context);
+    super.build(context);
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 50,
@@ -173,6 +172,30 @@ class _SecondAppState extends State<SecondApp>
               );
             },
           ),
+          header: CustomHeader(
+            completeDuration: Duration(),
+            refreshStyle: RefreshStyle.Behind,
+            onOffsetChange: (offset) {
+              if (_refreshController.headerMode!.value !=
+                  RefreshStatus.refreshing)
+                _scaleController.value = offset / 80.0;
+            },
+            builder: (_, __) {
+              return Container(
+                child: FadeTransition(
+                  opacity: _scaleController,
+                  child: ScaleTransition(
+                    child: SpinKitChasingDots(
+                      size: 30.0,
+                      color: Colors.white,
+                    ),
+                    scale: _scaleController,
+                  ),
+                ),
+                alignment: Alignment.center,
+              );
+            },
+          ),
         ),
         floatingActionButton: MakeSpeedDial(
           heroTag: "second",
@@ -212,12 +235,7 @@ class Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(PageRouteBuilder(
-            transitionDuration: Duration(milliseconds: 450),
-            reverseTransitionDuration: Duration(milliseconds: 450),
-            pageBuilder: (_, __, ___) => DetailShopFeed(
-                  item: item,
-                )));
+        Get.to(() => DetailShopFeed(item: item));
       },
       child: Ink(
         color: Colors.grey[900],
@@ -233,17 +251,14 @@ class Content extends StatelessWidget {
               ),
               width: 100,
               height: 100,
-              child: Hero(
-                tag: item.goodsId,
-                child: Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: CachedNetworkImage(
-                      imageUrl: item.imageUrlList[0],
-                      fit: BoxFit.cover,
-                      memCacheHeight: 500,
-                      filterQuality: FilterQuality.none,
-                    )),
-              ),
+              child: Card(
+                  clipBehavior: Clip.antiAlias,
+                  child: CachedNetworkImage(
+                    imageUrl: item.imageUrlList[0],
+                    fit: BoxFit.cover,
+                    memCacheHeight: 500,
+                    filterQuality: FilterQuality.none,
+                  )),
             ),
             Container(width: 15),
             Expanded(

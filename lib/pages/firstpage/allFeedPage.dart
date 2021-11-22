@@ -150,24 +150,3 @@ class _AllFeedPageState extends State<AllFeedPage>
     );
   }
 }
-
-// child: PagedListView.separated(
-//         pagingController: _pagingController,
-//         builderDelegate: PagedChildBuilderDelegate<Feed>(
-//             itemBuilder: (BuildContext context, dynamic item, int index) {
-//               print(index);
-//               return Content(
-//                 item: item,
-//                 size: size,
-//                 currentTime: currentTime,
-//                 user: user,
-//               );
-//             },
-//             firstPageProgressIndicatorBuilder: (_) => Loading()
-//             ),
-//         separatorBuilder: (BuildContext context, int index) {
-//           return const Divider(
-//             height: 30,
-//           );
-//         },
-//       ),

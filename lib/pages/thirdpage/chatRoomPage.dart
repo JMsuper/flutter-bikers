@@ -1,7 +1,7 @@
 import 'package:bikers/api/chatpage/chatRoomApi.dart';
 import 'package:bikers/authentication/user.dart';
 import 'package:bikers/home/home.dart';
-import 'package:bikers/pages/chatting/chat2.dart';
+import 'package:bikers/pages/chatting/chat.dart';
 import 'package:bikers/shared/passedTime.dart';
 import 'package:bikers/shared/widget/loading.dart';
 import 'package:bikers/shared/widget/speedDial.dart';
@@ -76,7 +76,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                       color: Colors.grey[100],
                       child: InkWell(
                         onTap: () {
-                          Get.to(() => Chat2(
+                          Get.to(() => ChatPage(
                               goodsId: chatRoomList[index].goodsId,
                               roomId: chatRoomList[index].roomId.toString(),
                               userId: user.uid));

@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'dart:math';
 import 'package:bikers/api/apiConfig.dart';
 import 'package:bikers/api/chatpage/chatMessageApi.dart';
 import 'package:bikers/api/chatpage/chatRoomApi.dart';
+import 'package:bikers/shared/widget/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 // ignore: must_be_immutable
-class ChattingPage extends StatefulWidget {
-  ChattingPage(
+class ChatPage extends StatefulWidget {
+  ChatPage(
       {Key? key,
       required this.goodsId,
       this.sellerId,
@@ -19,25 +24,49 @@ class ChattingPage extends StatefulWidget {
   final String userId;
 
   @override
-  State<ChattingPage> createState() => _ChattingPageState();
+  _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChattingPageState extends State<ChattingPage> {
+class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
+  List<types.TextMessage> _messages = [];
+  late types.User me;
+  //late types.User you;
   late IO.Socket socket;
-  late TextEditingController textEditingController;
-  late TextEditingController roomEditingController;
   String? joinedRoom;
-  List<ChatMessage> chatMessageList = [];
   bool isRoomExist = false;
+  bool futureInitCompleted = false;
+  int memCount = 0;
 
   @override
   initState() {
     super.initState();
-    textEditingController = TextEditingController();
-    roomEditingController = TextEditingController();
+    me = types.User(id: widget.userId);
+    //you = types.User(id: widget.sellerId);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _futureInit();
     });
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print('Current state = $state');
+    switch (state) {
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.resumed:
+        _futureInit();
+        break;
+      case AppLifecycleState.paused:
+        if (isRoomExist) {
+          socket.emit("leave", joinedRoom);
+          socket.dispose();
+        }
+        break;
+      case AppLifecycleState.detached:
+        break;
+    }
   }
 
   @override
@@ -46,29 +75,49 @@ class _ChattingPageState extends State<ChattingPage> {
       socket.emit("leave", joinedRoom);
       socket.dispose();
     }
-    textEditingController.dispose();
-    roomEditingController.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
   void socketInit() {
     socket = IO.io(ApiConfig.apiUrl, <String, dynamic>{
       "transports": ["websocket"],
-      "autoConnect": false,
+      "autoConnect": true,
     });
-    socket.connect();
     socket.onConnect((data) => print("Connected"));
     socket.on("message", (msg) {
-      // chatMessageList.add(msg["msg"]);
-      chatMessageList.add(ChatMessage(
-          roomId: int.parse(msg["room"]),
-          writerId: msg["writerId"],
-          contents: msg["msg"],
-          isviewed: 0,
-          createdDate: DateTime.now()));
+      final textMessage = types.TextMessage(
+        author: types.User(id: msg["writerId"]),
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomString(),
+        text: msg["msg"],
+        status: memCount == 2 ? types.Status.seen : types.Status.delivered,
+      );
+      _messages.insert(0, textMessage);
       setState(() {});
     });
+    socket.on("joinCount", (msg) {
+      memCount = msg["memCount"];
+      if (memCount == 2) {
+        changeMsgStateToSeen();
+        setState(() {});
+      }
+    });
+    socket.on("leaveCount", (_) {
+      memCount--;
+    });
+    socket.onReconnect((data) => _futureInit());
     socket.onDisconnect((_) => print('disconnect'));
+  }
+
+  void changeMsgStateToSeen() {
+    types.Status seen = types.Status.seen;
+    int i = 0;
+    int length = _messages.length;
+    while (_messages[i].status != seen && i < length) {
+      _messages[i] = _messages[i].copyWith(status: seen) as types.TextMessage;
+      i++;
+    }
   }
 
   void postMessage(room, msg) async {
@@ -80,16 +129,15 @@ class _ChattingPageState extends State<ChattingPage> {
       socketInit();
       join(roomId);
     }
-    if (isRoomExist) {
-      socket.emit("message",
-          {"room": joinedRoom, "writerId": widget.userId, "msg": msg});
-      Map<String, String> body = {
-        "room_id": joinedRoom!,
-        "user_id": widget.userId,
-        "contents": msg
-      };
-      ChatMessage.postChatMessage(body);
-    }
+    socket.emit(
+        "message", {"room": joinedRoom, "writerId": widget.userId, "msg": msg});
+    Map<String, String> body = {
+      "room_id": joinedRoom!,
+      "user_id": widget.userId,
+      "contents": msg,
+      "isviewed": memCount == 2 ? "0" : "1"
+    };
+    ChatMessage.postChatMessage(body);
   }
 
   void join(String roomId) {
@@ -108,93 +156,87 @@ class _ChattingPageState extends State<ChattingPage> {
     return roomId;
   }
 
-  Future getChatInShop(int goodsId, String userId) async {
+  Future<ChatMessageList> getChatInShop(int goodsId, String userId) async {
     ChatMessageList chatMessageList =
         await ChatMessage.getChatInShop(goodsId, userId);
     if (chatMessageList.chatMessegeList.length != 0) {
       isRoomExist = true;
     }
-    return chatMessageList.chatMessegeList;
+    return chatMessageList;
+  }
+
+  types.TextMessage chatMsgToTextMsg(
+      ChatMessage chatMessage, types.User author) {
+    final textMessage = types.TextMessage(
+        author: author,
+        createdAt: chatMessage.createdDate.millisecondsSinceEpoch,
+        id: randomString(),
+        text: chatMessage.contents,
+        status:
+            chatMessage.isviewed == 1 ? types.Status.sent : types.Status.seen);
+    return textMessage;
+  }
+
+  List<types.TextMessage> chatMsgListConvert(List<ChatMessage> chatMsgList) {
+    List<types.TextMessage> convertedList = [];
+    for (int i = 0; i < chatMsgList.length; i++) {
+      types.TextMessage msg = chatMsgToTextMsg(
+          chatMsgList[i], types.User(id: chatMsgList[i].writerId));
+      convertedList.insert(0, msg);
+    }
+    return convertedList;
   }
 
   Future _futureInit() async {
+    ChatMessageList list;
     if (widget.roomId != null) {
-      ChatMessageList list = await ChatMessage.getChatMessage(
+      list = await ChatMessage.getChatMessage(
           int.parse(widget.roomId!), widget.userId);
-      chatMessageList = list.chatMessegeList;
+      _messages = chatMsgListConvert(list.chatMessegeList);
       isRoomExist = true;
     } else {
-      chatMessageList = await getChatInShop(widget.goodsId, widget.userId);
+      list = await getChatInShop(widget.goodsId, widget.userId);
+      _messages = chatMsgListConvert(list.chatMessegeList);
     }
     if (isRoomExist) {
       socketInit();
-      join(chatMessageList[0].roomId.toString());
-      setState(() {});
+      join(list.chatMessegeList[0].roomId.toString());
     }
+    setState(() {
+      futureInitCompleted = true;
+    });
+  }
+
+  // 꼭 필요한 것인가?
+  String randomString() {
+    final random = Random.secure();
+    final values = List<int>.generate(16, (i) => random.nextInt(255));
+    return base64UrlEncode(values);
+  }
+
+  void _handleSendPressed(types.PartialText message) {
+    postMessage(joinedRoom, message.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: SafeArea(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            height: 50,
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: TextField(
-                    controller: textEditingController,
-                  ),
-                ),
-                TextButton(
-                    onPressed: () {
-                      postMessage(joinedRoom, textEditingController.text);
-                    },
-                    child: Text("send"))
-              ],
-            ),
-          ),
-          Container(
-            height: 50,
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: TextField(
-                    controller: roomEditingController,
-                  ),
-                ),
-                // TextButton(
-                //     onPressed: () {
-                //       joinChange(
-                //           joinedRoom!, roomEditingController.text);
-                //     },
-                //     child: Text("join"))
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              child: ListView.builder(
-                  itemCount: chatMessageList.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        title: Text(chatMessageList[index].writerId),
-                        subtitle: Text(chatMessageList[index].contents),
-                      ),
-                    );
-                  }),
-            ),
-          )
-        ])));
+      appBar: AppBar(backgroundColor: Colors.black54, title: Text("채팅방")),
+      body: futureInitCompleted
+          ? SafeArea(
+              bottom: false,
+              child: Chat(
+                messages: _messages,
+                dateHeaderThreshold: 300000,
+                onSendPressed: _handleSendPressed,
+                //bubbleBuilder: _bubbleBuilder,
+                // showUserAvatars: true,
+                // showUserNames: true,
+                user: me,
+                theme: DefaultChatTheme(backgroundColor: Colors.black),
+              ),
+            )
+          : Loading(),
+    );
   }
 }
