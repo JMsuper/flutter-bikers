@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "202345103856",
+    "project_id": "bikersdb-71613",
+    "storage_bucket": "bikersdb-71613.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202345103856:android:54836d2784b40ce884dd35",
+        "android_client_info": {
+          "package_name": "com.borndevil.bikers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202345103856-adh5t6h4bhgv44usooga0e7j6h3ljv3i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.borndevil.bikers",
+            "certificate_hash": "aa6ffeafcc8c4ac5f7d568886267f3063d70af3a"
+          }
+        },
+        {
+          "client_id": "202345103856-p4ggmjqjn4ciruf1r50pjsm13j05koh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0ZCEddKs0O8ggyQz5QLIpOz_UQktMd9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202345103856-p4ggmjqjn4ciruf1r50pjsm13j05koh3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "202345103856-7lo4r9rinjvqqs4mpjirkdl4k37jq375.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.borndevil.bikers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>202345103856-7lo4r9rinjvqqs4mpjirkdl4k37jq375.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.202345103856-7lo4r9rinjvqqs4mpjirkdl4k37jq375</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>202345103856-adh5t6h4bhgv44usooga0e7j6h3ljv3i.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCXD4asFzJF8uKgT8A7hdlGkbuHiNRjnw0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>202345103856</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.borndevil.bikers</string>
+	<key>PROJECT_ID</key>
+	<string>bikersdb-71613</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bikersdb-71613.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:202345103856:ios:febdfc7bc2e3470284dd35</string>
+</dict>
+</plist>
