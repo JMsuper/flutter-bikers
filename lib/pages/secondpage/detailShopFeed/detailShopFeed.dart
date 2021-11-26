@@ -1,3 +1,4 @@
+
 import 'package:bikers/api/secondpage/shopApi.dart';
 import 'package:bikers/authentication/user.dart';
 import 'package:bikers/pages/chatting/chat.dart';
@@ -39,7 +40,7 @@ class _DetailShopFeedState extends State<DetailShopFeed>
     super.initState();
     _current = 0;
     _animationController = AnimationController(vsync: this);
-    _colorTween = ColorTween(begin: Colors.white, end: Colors.black)
+    _colorTween = ColorTween(begin: Colors.black54, end: Colors.black)
         .animate(_animationController);
     _scrollController.addListener(() {
       if (_scrollController.offset < 255) {
@@ -157,72 +158,82 @@ class _DetailShopFeedState extends State<DetailShopFeed>
 
   Widget _contentsView() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: Column(children: [
-        Container(
-          width: size.width,
-          height: 100,
-          color: Colors.white,
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, 
                 children: [
-                  Text(
-                    widget.item.title,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Text(
-                    numFormat.format(widget.item.price),
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    RegionNCategory.regionList[widget.item.regionId] +
-                        "ㆍ" +
-                        RegionNCategory.categoryList[widget.item.categoryId] +
-                        "ㆍ" +
-                        PassedTime.createPassedTime(
-                            currentTime, widget.item.createdDate),
-                    style: TextStyle(color: Colors.grey[600], fontSize: 13),
-                  ),
-                ]),
-            Column(
-              children: [
-                LikeIcon(
-                  user: user,
-                  item: widget.item,
-                  likeFunc: likeFunc,
-                  unlikeFunc: unlikeFunc,
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.item.title,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      numFormat.format(widget.item.price),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      RegionNCategory.regionList[widget.item.regionId] +
+                          "ㆍ" +
+                          RegionNCategory.categoryList[widget.item.categoryId] +
+                          "ㆍ" +
+                          PassedTime.createPassedTime(
+                              currentTime, widget.item.createdDate),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                    ),
+                  ]),
+                  Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LikeIcon(
+                      user: user,
+                      item: widget.item,
+                      likeFunc: likeFunc,
+                      unlikeFunc: unlikeFunc,
+                    ),
+                    OutlinedButton(
+                      onPressed: () {
+                        Get.to(() => ChatPage(
+                            goodsId: widget.item.goodsId,
+                            sellerId: widget.item.writerId,
+                            userId: user.uid));
+                      }, 
+                      style: OutlinedButton.styleFrom(
+                        primary: Colors.black54,
+                        side: BorderSide(
+                          color: Colors.grey,
+                          width: 1
+                        ),
+                        minimumSize: Size(45, 25)
+
+                        ),
+                      
+                      child: Text('거래하기')),
+                      ],
                 ),
-                TextButton(
-                  onPressed: () {
-                    Get.to(() => ChatPage(
-                        goodsId: widget.item.goodsId,
-                        sellerId: widget.item.writerId,
-                        userId: user.uid));
-                  },
-                  child: Text("거래하기"),
-                )
-              ],
-            )
-          ]),
-        ),
-        Divider(
-          height: 5,
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: Container(
-            width: size.width,
-            color: Colors.white,
-            child: Text(widget.item.contents),
+              
+            ]),
+          
+          Divider(
+            height: 5,
           ),
-        ),
-        Divider(
-          height: 5,
-        ),
-      ]),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Container(
+              width: size.width,
+              color: Colors.white,
+              child: Text(widget.item.contents),
+            ),
+          ),
+          Divider(
+            height: 5,
+          ),
+        ]),
+      
     );
   }
 

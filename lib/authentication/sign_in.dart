@@ -1,7 +1,6 @@
 import 'package:bikers/services/auth.dart';
 import 'package:bikers/shared/widget/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 
 class SignIn extends StatefulWidget {
@@ -27,7 +26,7 @@ class _SignInState extends State<SignIn> {
               backgroundColor: Colors.white,
               elevation: 1.0,
               title: Text('BIKERS 로그인',
-                  style: GoogleFonts.permanentMarker(
+                  style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2,
@@ -106,11 +105,11 @@ class _SignInState extends State<SignIn> {
                               height: 50,
                               width: 310,
                               child: ElevatedButton(
-                                child: Text(
-                                  '인증문자 받기',
-                                  //style: TextStyle(fontSize: 20),
-                                  style: TextStyle(fontFamily: 'PermanentMarker',fontSize: 20)
-                                ),
+                                child: Text('인증문자 받기',
+                                    //style: TextStyle(fontSize: 20),
+                                    style: TextStyle(
+                                        fontFamily: 'PermanentMarker',
+                                        fontSize: 20)),
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all(Colors.black),

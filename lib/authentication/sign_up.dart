@@ -3,7 +3,7 @@ import 'package:bikers/home/home.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:bikers/shared/widget/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:string_validator/string_validator.dart';

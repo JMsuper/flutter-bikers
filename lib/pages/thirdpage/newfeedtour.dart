@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -267,19 +267,86 @@ class _NewFeedTourState extends State<NewFeedTour> {
                             child: InkWell(onTap: () async {
                               MemberController.to.changeColor();
 
-                              showDialog(
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text("인원 설정"),
-                                      content: Container(
-                                          height: 130,
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                NumberPicker(
+                              // showDialog(
+                              //     builder: (BuildContext context) {
+                              //       return AlertDialog(
+                              //         title: Text("인원 설정"),
+                              //         content: Container(
+                              //             height: 130,
+                              //             child: Column(
+                              //                 mainAxisAlignment:
+                              //                     MainAxisAlignment.spaceAround,
+                              //                 crossAxisAlignment:
+                              //                     CrossAxisAlignment.center,
+                              //                 mainAxisSize: MainAxisSize.min,
+                              //                 children: [
+                              //                   StatefulBuilder(
+                              //                     builder: (_, mySetter) =>
+                              //                         NumberPicker(
+                              //                             value:
+                              //                                 MemberController
+                              //                                     .to.count,
+                              //                             axis: Axis.horizontal,
+                              //                             minValue: 5,
+                              //                             maxValue: 30,
+                              //                             itemCount: 3,
+                              //                             decoration:
+                              //                                 BoxDecoration(
+                              //                               borderRadius:
+                              //                                   BorderRadius
+                              //                                       .circular(
+                              //                                           10),
+                              //                               border: Border.all(
+                              //                                   color: Colors
+                              //                                       .grey),
+                              //                             ),
+                              //                             step: 1,
+                              //                             haptics: true,
+                              //                             textStyle: TextStyle(
+                              //                                 fontSize: 18),
+                              //                             selectedTextStyle:
+                              //                                 TextStyle(
+                              //                                     fontSize: 25,
+                              //                                     color: Colors
+                              //                                         .blue),
+                              //                             onChanged: (value) {
+                              //                               mySetter(() {
+                              //                                 MemberController
+                              //                                     .to
+                              //                                     .updateCount(
+                              //                                         value);
+                              //                               });
+                              //                             }),
+                              //                   ),
+                              //                   Text(
+                              //                     "Bikers는 안전상의 이유로 모임인원을 5인 이상으로 제한합니다",
+                              //                     style: TextStyle(
+                              //                         color: Colors.grey),
+                              //                   ),
+                              //                 ])),
+                              //       );
+                              //     },
+                              //     context: context);
+
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return Container(
+                                      height: 150,
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "인원 설정",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            StatefulBuilder(
+                                                builder: (context, mySetter) {
+                                              return Center(
+                                                child: NumberPicker(
                                                     value: MemberController
                                                         .to.count,
                                                     axis: Axis.horizontal,
@@ -301,74 +368,21 @@ class _NewFeedTourState extends State<NewFeedTour> {
                                                             fontSize: 25,
                                                             color: Colors.blue),
                                                     onChanged: (value) {
-                                                      MemberController.to
-                                                          .updateCount(value);
+                                                      mySetter(() {
+                                                        MemberController.to
+                                                            .updateCount(value);
+                                                      });
                                                     }),
-                                                Text(
-                                                  "Bikers는 안전상의 이유로 모임인원을 5인 이상으로 제한합니다",
-                                                  style: TextStyle(
-                                                      color: Colors.grey),
-                                                ),
-                                              ])),
+                                              );
+                                            }),
+                                            Text(
+                                              "Bikers는 안전상의 이유로 모임인원을 5인 이상으로 제한합니다",
+                                              style:
+                                                  TextStyle(color: Colors.grey),
+                                            ),
+                                          ]),
                                     );
-                                  },
-                                  context: context);
-
-                              // showModalBottomSheet(
-                              //     context: context,
-                              //     builder: (context) {
-                              //       return Container(
-                              //         height: 150,
-                              //         child: Column(
-                              //             mainAxisAlignment:
-                              //                 MainAxisAlignment.spaceAround,
-                              //             crossAxisAlignment:
-                              //                 CrossAxisAlignment.center,
-                              //             children: [
-                              //               Text(
-                              //                 "인원 설정",
-                              //                 style: TextStyle(fontSize: 18),
-                              //               ),
-                              //               StatefulBuilder(
-                              //                   builder: (context, mySetter) {
-                              //                 return Center(
-                              //                   child: NumberPicker(
-                              //                       value: MemberContorller
-                              //                           .to.count,
-                              //                       axis: Axis.horizontal,
-                              //                       minValue: 5,
-                              //                       maxValue: 30,
-                              //                       decoration: BoxDecoration(
-                              //                         borderRadius:
-                              //                             BorderRadius.circular(
-                              //                                 10),
-                              //                         border: Border.all(
-                              //                             color: Colors.grey),
-                              //                       ),
-                              //                       step: 1,
-                              //                       haptics: true,
-                              //                       textStyle:
-                              //                           TextStyle(fontSize: 18),
-                              //                       selectedTextStyle:
-                              //                           TextStyle(
-                              //                               fontSize: 25,
-                              //                               color: Colors.blue),
-                              //                       onChanged: (value) {
-                              //                         mySetter(() {
-                              //                           MemberContorller.to
-                              //                               .updateCount(value);
-                              //                         });
-                              //                       }),
-                              //                 );
-                              //               }),
-                              //               Text(
-                              //                 "Bikers는 안전상의 이유로 모임인원을 5인 이상으로 제한합니다",
-                              //                 style:
-                              //                     TextStyle(color: Colors.grey),
-                              //               ),
-                              //             ]),
-                              //       );
-                              //     });
+                                  });
 
                               MemberController.to.changeColor();
                             }, child: GetBuilder<MemberController>(

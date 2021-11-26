@@ -46,7 +46,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async{
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     print('Current state = $state');
     switch (state) {
@@ -92,8 +92,8 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   dateHeaderThreshold: 300000,
                   onSendPressed: _handleSendPressed,
                   // bubbleBuilder: _bubbleBuilder,
-                  // showUserAvatars: true,
-                  // showUserNames: true,
+                  showUserAvatars: true,
+                  showUserNames: true,
                   user: me,
                   theme: DefaultChatTheme(backgroundColor: Colors.black),
                 ),

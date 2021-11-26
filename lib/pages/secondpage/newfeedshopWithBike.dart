@@ -2,6 +2,7 @@ import 'package:bikers/api/secondpage/shopApi.dart';
 import 'package:bikers/authentication/user.dart';
 import 'package:bikers/pages/secondpage/categorySelector.dart';
 import 'package:bikers/pages/secondpage/regionAndCategory.dart';
+import 'package:bikers/shared/permissionHandler.dart';
 import 'package:bikers/shared/widget/makeTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,11 +66,6 @@ class _NewFeedShopWithBikeState extends State<NewFeedShopWithBike> {
 
       await Shop.postShopFeed(body);
     }
-  }
-
-  Future checkPermission() async {
-    var status = await Permission.storage.status;
-    return status.isGranted;
   }
 
   final titleController = TextEditingController();
@@ -278,8 +274,15 @@ class _NewFeedShopWithBikeState extends State<NewFeedShopWithBike> {
                                                               ),
                                                             ]),
                                                         onTap: () async {
-                                                          bool permitted =
-                                                              await checkPermission();
+                                                          bool permitted = Theme.of(
+                                                                          context)
+                                                                      .platform ==
+                                                                  TargetPlatform
+                                                                      .android
+                                                              ? await PermissionHandler
+                                                                  .checkAndroidPhotoPermission()
+                                                              : await PermissionHandler
+                                                                  .checkIosPhotoPermission();
                                                           if (permitted) {
                                                             List<
                                                                 File>? imageList = await Navigator
@@ -320,7 +323,7 @@ class _NewFeedShopWithBikeState extends State<NewFeedShopWithBike> {
                                                                           "앱 설정",
                                                                       onPressed:
                                                                           () {
-                                                                        openAppSettings();
+                                                                          openAppSettings();
                                                                       }),
                                                             ));
                                                           }
