@@ -239,7 +239,7 @@ class _SignUpState extends State<SignUp> {
                                 ),
                                 style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all(Colors.black),
+                                      WidgetStateProperty.all(Colors.black),
                                 ),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate() &&

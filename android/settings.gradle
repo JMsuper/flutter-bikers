@@ -1,3 +1,10 @@
+pluginManagement {
+    plugins {
+        id 'org.jetbrains.kotlin.android' version '1.7.10'
+        // ... existing code ...
+    }
+}
+
 include ':app'
 
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")

@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 // ignore: must_be_immutable
 class ChatPage extends StatefulWidget {
-  ChatPage(
-      {Key? key,
-      required this.goodsId,
-      this.sellerId,
-      this.roomId,
-      required this.userId})
-      : super(key: key);
+  ChatPage({
+    Key? key,
+    required this.goodsId,
+    this.sellerId,
+    this.roomId,
+    required this.userId
+  }) : super(key: key);
+  
   final int goodsId;
   String? sellerId;
   String? roomId;
@@ -29,20 +29,21 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   late ChatController _chatController;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     me = types.User(id: widget.userId);
 
     _chatController = Get.put(ChatController(
-        goodsId: widget.goodsId,
-        sellerId: widget.sellerId,
-        roomId: widget.roomId,
-        userId: widget.userId));
+      goodsId: widget.goodsId,
+      sellerId: widget.sellerId,
+      roomId: widget.roomId,
+      userId: widget.userId
+    ));
 
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _chatController.futureInit();
     });
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -62,6 +63,8 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
+      case AppLifecycleState.hidden:
+        break;
     }
   }
 
@@ -71,7 +74,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       _chatController.socket.emit("leave", _chatController.joinedRoom);
       _chatController.socket.dispose();
     }
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -82,23 +85,25 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.black54, title: Text("채팅방")),
+      appBar: AppBar(
+        backgroundColor: Colors.black54,
+        title: Text("채팅방")
+      ),
       body: GetBuilder<ChatController>(
         builder: (_) => _chatController.futureInitCompleted
-            ? SafeArea(
-                bottom: false,
-                child: Chat(
-                  messages: _chatController.messages,
-                  dateHeaderThreshold: 300000,
-                  onSendPressed: _handleSendPressed,
-                  // bubbleBuilder: _bubbleBuilder,
-                  showUserAvatars: true,
-                  showUserNames: true,
-                  user: me,
-                  theme: DefaultChatTheme(backgroundColor: Colors.black),
-                ),
-              )
-            : Loading(),
+          ? SafeArea(
+              bottom: false,
+              child: Chat(
+                messages: _chatController.messages,
+                dateHeaderThreshold: 300000,
+                onSendPressed: _handleSendPressed,
+                showUserAvatars: true,
+                showUserNames: true,
+                user: me,
+                theme: DefaultChatTheme(backgroundColor: Colors.black),
+              ),
+            )
+          : Loading(),
       ),
     );
   }

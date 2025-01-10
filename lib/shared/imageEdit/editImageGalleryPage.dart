@@ -19,7 +19,7 @@ class EditImagePageState extends State<EditImagePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       pickGallery(context, null, widget.maxAssets);
     });
   }

@@ -30,7 +30,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              FlatButtonWithIcon(
+              TextButton.icon(
                 icon: const Icon(
                   Icons.crop,
                   color: Colors.white,
@@ -78,7 +78,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
                       });
                 },
               ),
-              FlatButtonWithIcon(
+              TextButton.icon(
                 icon: const Icon(
                   Icons.flip,
                   color: Colors.white,
@@ -97,7 +97,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
                   }
                 },
               ),
-              FlatButtonWithIcon(
+              TextButton.icon(
                 icon: const Icon(
                   Icons.rotate_left,
                   color: Colors.white,
@@ -116,7 +116,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
                   }
                 },
               ),
-              FlatButtonWithIcon(
+              TextButton.icon(
                 icon: const Icon(
                   Icons.rotate_right,
                   color: Colors.white,
@@ -135,7 +135,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
                   }
                 },
               ),
-              FlatButtonWithIcon(
+              TextButton.icon(
                 icon: const Icon(
                   Icons.restore,
                   color: Colors.white,

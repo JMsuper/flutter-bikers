@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart' hide FileImage;
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import '/shared/imageEdit/editImagePageElement.dart';
-import 'dart:io';
 
 class ImageInfoNotifier extends ChangeNotifier {
   List<File> imageFileList = [];

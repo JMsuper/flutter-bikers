@@ -60,8 +60,6 @@ class _FollowButtonState extends State<FollowButton> {
       return OutlinedButton(
         child: Text('팔로우'),
         style: OutlinedButton.styleFrom(
-            primary: Colors.black,
-            onSurface: Colors.grey,
             backgroundColor: Colors.white,
             textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             minimumSize: Size(60, 15)),

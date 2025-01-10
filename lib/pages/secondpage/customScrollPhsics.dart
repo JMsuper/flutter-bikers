@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:flutter/physics.dart';
-
 class CustomScrollPhysics extends ScrollPhysics {
   const CustomScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
 

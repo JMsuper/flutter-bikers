@@ -3,7 +3,6 @@ import 'package:bikers/pages/firstpage/allFeedPage.dart';
 import 'package:bikers/pages/firstpage/followerFeedPage.dart';
 import 'package:bikers/shared/widget/speedDial.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'searchpage.dart';

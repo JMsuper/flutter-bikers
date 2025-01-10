@@ -48,7 +48,7 @@ class _EditScreenState extends State<EditScreen> {
                 maxScale: 7.0,
                 editorMaskColorHandler:
                     (BuildContext context, bool pointerDown) {
-                  return Colors.black.withOpacity(pointerDown ? 0.6 : 0.8);
+                  return Colors.black.withAlpha(pointerDown ? 153 : 204);
                 },
                 cropRectPadding: const EdgeInsets.all(10.0),
                 cropLayerPainter: _cropLayerPainter!,

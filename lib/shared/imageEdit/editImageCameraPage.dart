@@ -39,7 +39,7 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
     super.initState();
     _aspectRatio = _aspectRatios.first;
     _cropLayerPainter = const EditorCropLayerPainter();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       AssetEntity? image;
       image = await CameraPicker.pickFromCamera(context,
           textDelegate: KoreanCameraPickerTextDelegate());
@@ -135,7 +135,7 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
                             editorMaskColorHandler:
                                 (BuildContext context, bool pointerDown) {
                               return Colors.black
-                                  .withOpacity(pointerDown ? 0.6 : 0.8);
+                                  .withAlpha(pointerDown ? 153 : 204);
                             },
                             cornerColor: Colors.grey[700],
                             cornerSize: Size(30, 3.5),
@@ -168,7 +168,7 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      FlatButtonWithIcon(
+                      CustomIconButton(
                         icon: const Icon(
                           Icons.crop,
                           color: Colors.white,
@@ -217,7 +217,7 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
                               });
                         },
                       ),
-                      FlatButtonWithIcon(
+                      CustomIconButton(
                         icon: const Icon(
                           Icons.flip,
                           color: Colors.white,
@@ -233,7 +233,7 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
                           snapshot.data["editorKey"].currentState!.flip();
                         },
                       ),
-                      FlatButtonWithIcon(
+                      CustomIconButton(
                         icon: const Icon(
                           Icons.rotate_left,
                           color: Colors.white,
@@ -250,7 +250,7 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
                               .rotate(right: false);
                         },
                       ),
-                      FlatButtonWithIcon(
+                      CustomIconButton(
                         icon: const Icon(
                           Icons.rotate_right,
                           color: Colors.white,
@@ -267,7 +267,7 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
                               .rotate(right: true);
                         },
                       ),
-                      FlatButtonWithIcon(
+                      CustomIconButton(
                         icon: const Icon(
                           Icons.restore,
                           color: Colors.white,

@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:bikers/shared/widget/loading.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '/provider/imageEditProvider.dart';
 import '/shared/imageEdit/editImageCameraPage.dart';

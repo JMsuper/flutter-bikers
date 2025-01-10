@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'settingPage/settingpage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FourthApp extends StatefulWidget {
@@ -32,7 +31,7 @@ class _FourthAppState extends State<FourthApp> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await getData();
       setState(() {});
     });

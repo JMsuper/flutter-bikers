@@ -2,7 +2,6 @@ import 'package:bikers/pages/firstpage/firstpage.dart';
 import 'package:bikers/pages/fourthpage/fourthpage.dart';
 import 'package:bikers/pages/secondpage/secondpage.dart';
 import 'package:bikers/pages/thirdpage/chatRoomPage.dart';
-import 'package:bikers/pages/thirdpage/thirdpage.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {

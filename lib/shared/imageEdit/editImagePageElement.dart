@@ -65,28 +65,39 @@ Future pickGallery(
   }
 }
 
-class FlatButtonWithIcon extends TextButton with MaterialButtonWithIconMixin {
-  FlatButtonWithIcon({
-    required VoidCallback onPressed,
-    Clip clipBehavior = Clip.none,
-    required Widget icon,
-    required Widget label,
-  }) : super(
-          onPressed: onPressed,
-          clipBehavior: clipBehavior,
-          style: ButtonStyle(
-              textStyle: MaterialStateProperty.all<TextStyle>(
-            const TextStyle(color: Color(0xFFFFFFFF)),
-          )),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              icon,
-              const SizedBox(height: 5.0),
-              label,
-            ],
-          ),
-        );
+class CustomIconButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final Widget icon;
+  final Widget label;
+  final Clip clipBehavior;
+
+  const CustomIconButton({
+    required this.onPressed,
+    required this.icon,
+    required this.label,
+    this.clipBehavior = Clip.none,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      clipBehavior: clipBehavior,
+      style: ButtonStyle(
+        textStyle: WidgetStateProperty.all<TextStyle>(
+          const TextStyle(color: Color(0xFFFFFFFF)),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          icon,
+          const SizedBox(height: 5.0),
+          label,
+        ],
+      ),
+    );
+  }
 }
 
 class AspectRatioItem {

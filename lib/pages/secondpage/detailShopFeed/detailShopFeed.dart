@@ -1,4 +1,3 @@
-
 import 'package:bikers/api/secondpage/shopApi.dart';
 import 'package:bikers/authentication/user.dart';
 import 'package:bikers/pages/chatting/chat.dart';
@@ -148,7 +147,7 @@ class _DetailShopFeedState extends State<DetailShopFeed>
                           shape: BoxShape.circle,
                           color: _current == index
                               ? Colors.white
-                              : Colors.white.withOpacity(0.4),
+                              : Colors.white.withAlpha(102),
                         ));
                   }).toList(),
                 )
@@ -203,7 +202,7 @@ class _DetailShopFeedState extends State<DetailShopFeed>
                             userId: user.uid));
                       }, 
                       style: OutlinedButton.styleFrom(
-                        primary: Colors.black54,
+                        backgroundColor: Colors.black54,
                         side: BorderSide(
                           color: Colors.grey,
                           width: 1

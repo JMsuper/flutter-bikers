@@ -44,7 +44,7 @@ class ChildCommentPageState extends State<ChildCommentPage> {
     super.didChangeDependencies();
     feedCommentId = widget.feedComment.id;
     user = Provider.of<Users?>(context);
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       refreshMessage();
     });
   }

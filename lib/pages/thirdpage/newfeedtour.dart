@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:bikers/authentication/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:numberpicker/numberpicker.dart';

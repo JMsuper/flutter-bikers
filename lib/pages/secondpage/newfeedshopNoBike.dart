@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 import '/provider/imageEditProvider.dart';
 import '/shared/imageEdit/editImageCameraPage.dart';
 import '/shared/imageEdit/editImageGalleryPage.dart';
-import 'package:flutter/foundation.dart' show TargetPlatform;
 
 class NewFeedShopNoBike extends StatefulWidget {
   @override

@@ -14,8 +14,10 @@ class ImageCompress {
     );
 
     print(file.lengthSync());
-    print(result!.lengthSync());
+    // XFile을 File로 변환
+    File resultFile = File(result!.path);
+    print(resultFile.lengthSync());
 
-    return result;
+    return resultFile;
   }
 }
