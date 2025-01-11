@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:extended_image/extended_image.dart' hide File;
+import 'package:extended_image/extended_image.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'customPickerText.dart';
 import 'dart:io';
@@ -41,8 +41,12 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
     _cropLayerPainter = const EditorCropLayerPainter();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       AssetEntity? image;
-      image = await CameraPicker.pickFromCamera(context,
-          textDelegate: KoreanCameraPickerTextDelegate());
+      image = await CameraPicker.pickFromCamera(
+        context,
+        pickerConfig: CameraPickerConfig(
+          textDelegate: KoreanCameraPickerTextDelegate(),
+        ),
+      );
       if (image == null) {
         Navigator.of(context).pop();
       } else {
@@ -66,8 +70,12 @@ class _EditImageCameraPageState extends State<EditImageCamaraPage> {
 
   Future pickCamera(BuildContext context) async {
     AssetEntity? image;
-    image = await CameraPicker.pickFromCamera(context,
-        textDelegate: KoreanCameraPickerTextDelegate());
+    image = await CameraPicker.pickFromCamera(
+      context,
+      pickerConfig: CameraPickerConfig(
+        textDelegate: KoreanCameraPickerTextDelegate(),
+      ),
+    );
     if (image == null) {
       Navigator.of(context).pop();
     } else {

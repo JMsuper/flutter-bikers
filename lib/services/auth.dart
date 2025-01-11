@@ -5,7 +5,7 @@ import 'package:bikers/home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pinput/pin_put/pin_put.dart';
+import 'package:pinput/pinput.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -52,7 +52,7 @@ class AuthService {
           });
         },
         verificationFailed: (FirebaseAuthException authException) {
-          //print(authException.message);
+          print(authException.message);
         },
         codeSent: (String verificationId, int? forceResendingToken) {
           final pinputFocusNode = FocusNode();
@@ -78,20 +78,51 @@ class AuthService {
                     style: TextStyle(fontSize: 15),
                   )),
                   content: Column(mainAxisSize: MainAxisSize.min, children: [
-                    PinPut(
-                      mainAxisSize: MainAxisSize.min,
-                      fieldsCount: 6,
-                      withCursor: true,
-                      textStyle:
-                          const TextStyle(fontSize: 20.0, color: Colors.white),
-                      eachFieldWidth: 20.0,
-                      eachFieldHeight: 20.0,
-                      eachFieldAlignment: Alignment.center,
-                      eachFieldMargin: EdgeInsets.all(1),
-                      onChanged: (_) {
-                        
-                      },
-                      onSubmit: (String smsCode) async {
+                    Pinput(
+                      length: 6,
+                      controller: _codeController,
+                      focusNode: pinputFocusNode,
+                      defaultPinTheme: PinTheme(
+                        width: 56,
+                        height: 56,
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      focusedPinTheme: PinTheme(
+                        width: 56,
+                        height: 56,
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      submittedPinTheme: PinTheme(
+                        width: 56,
+                        height: 56,
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.green),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      obscureText: false,
+                      onCompleted: (String smsCode) async {
                         FirebaseAuth auth = FirebaseAuth.instance;
 
                         String smsCode = _codeController.text.trim();
@@ -135,13 +166,6 @@ class AuthService {
                           errorMsgController.changeErrorMsgToError();
                         });
                       },
-                      focusNode: pinputFocusNode,
-                      controller: _codeController,
-                      submittedFieldDecoration: pinPutDecoration,
-                      selectedFieldDecoration: pinPutDecoration,
-                      followingFieldDecoration: pinPutDecoration,
-                      pinAnimationType: PinAnimationType.fade,
-                      keyboardType: TextInputType.number,
                     ),
                     GetBuilder<ErrorMsgController>(
                         builder: (_) => Text(

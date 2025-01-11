@@ -1,21 +1,40 @@
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '1.9.20'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath 'com.android.tools.build:gradle:8.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.8'
+        classpath 'com.google.gms:google-services:4.4.2'
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+    }
+    
+    plugins.withId('com.android.library') {
+        android {
+            if (project.name == "video_player_android") {
+                namespace "io.flutter.plugins.videoplayer"
+            } else {
+                namespace project.findProperty("namespace") ?: project.findProperty("PLUGIN_NAMESPACE") ?: "io.flutter.plugins.${project.name}"
+            }
+            
+            buildFeatures {
+                buildConfig true
+            }
+            
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+        }
     }
 }
 
@@ -25,6 +44,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

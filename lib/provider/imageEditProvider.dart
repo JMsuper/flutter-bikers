@@ -1,5 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:extended_image/extended_image.dart' hide FileImage;
+import 'package:extended_image/extended_image.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import '/shared/imageEdit/editImagePageElement.dart';
 
@@ -43,13 +44,13 @@ class ImageInfoNotifier extends ChangeNotifier {
 
   void rotateLeft(int index) {
     imageEditorKeyList = List.from(imageEditorKeyList);
-    imageEditorKeyList[index].currentState!.rotate(right: false);
+    imageEditorKeyList[index].currentState!.rotate(degree: -90);
     notifyListeners();
   }
 
   void rotateRight(int index) {
     imageEditorKeyList = List.from(imageEditorKeyList);
-    imageEditorKeyList[index].currentState!.rotate(right: true);
+    imageEditorKeyList[index].currentState!.rotate(degree: 90);
     notifyListeners();
   }
 

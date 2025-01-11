@@ -64,7 +64,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future showDatePicker(DateTime _date) async {
-    DateTime? birth = await DatePicker.showDatePicker(
+    DateTime? birth = await DatePickerBdaya.showDatePicker(
       context,
       minTime: DateTime.parse(MIN_DATETIME),
       maxTime: DateTime.parse(MAX_DATETIME),

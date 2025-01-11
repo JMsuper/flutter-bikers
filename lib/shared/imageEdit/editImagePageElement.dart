@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:extended_image/extended_image.dart' hide File;
+import 'package:extended_image/extended_image.dart';
 import 'package:provider/provider.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'customPickerText.dart';
@@ -13,9 +13,9 @@ Future<File?> saveCroppedImage(
   final Rect? cropRect = state.getCropRect();
   final EditActionDetails action = state.editAction!;
 
-  final int rotateAngle = action.rotateAngle.toInt();
+  final int rotateAngle = 0;
   final bool flipHorizontal = action.flipY;
-  final bool flipVertical = action.flipX;
+  final bool flipVertical = action.flipY;
   final Uint8List img = state.rawImageData;
 
   final ImageEditorOption option = ImageEditorOption();
@@ -29,7 +29,7 @@ Future<File?> saveCroppedImage(
         FlipOption(horizontal: flipHorizontal, vertical: flipVertical));
   }
 
-  if (action.hasRotateAngle) {
+  if (rotateAngle != 0) {
     option.addOption(RotateOption(rotateAngle));
   }
   final File? result = await ImageEditor.editImageAndGetFile(
@@ -44,16 +44,19 @@ Future pickGallery(
     BuildContext context, List<AssetEntity>? remainList, int maxAssets) async {
   List<AssetEntity>? assets = [];
 
-  assets = await AssetPicker.pickAssets(context,
-      selectedAssets: remainList,
+  assets = await AssetPicker.pickAssets(
+    context,
+    pickerConfig: AssetPickerConfig(
       maxAssets: maxAssets,
+      selectedAssets: remainList,
       gridCount: 3,
       pageSize: 81,
       requestType: RequestType.image,
       specialPickerType: SpecialPickerType.noPreview,
-      sortPathDelegate: const CustomSortPathDelegate(),
+      sortPathDelegate: const CommonSortPathDelegate(),
       textDelegate: KoreanTextDelegate(),
-      routeDuration: const Duration());
+    ),
+  );
   // pickAssets()에서 뒤로가기를 누르면 null을 반환한다.
   if (assets == null) {
     Navigator.of(context).pop();
@@ -170,5 +173,24 @@ class AspectRatioPainter extends CustomPainter {
         (oldDelegate.isSelected != isSelected ||
             oldDelegate.aspectRatioS != aspectRatioS ||
             oldDelegate.aspectRatio != aspectRatio);
+  }
+
+  Rect getDestinationRect({
+    required Rect rect,
+    required Size inputSize,
+    BoxFit fit = BoxFit.contain,
+  }) {
+    Size size = rect.size;
+    double scale = 1.0;
+    if (size.width / size.height >= inputSize.width / inputSize.height) {
+      scale = size.height / inputSize.height;
+    } else {
+      scale = size.width / inputSize.width;
+    }
+    double width = inputSize.width * scale;
+    double height = inputSize.height * scale;
+    double dx = rect.left + (size.width - width) / 2;
+    double dy = rect.top + (size.height - height) / 2;
+    return Rect.fromLTWH(dx, dy, width, height);
   }
 }

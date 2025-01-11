@@ -1,39 +1,38 @@
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
-class KoreanTextDelegate extends AssetsPickerTextDelegate {
-  @override
-  String confirm = '선택';
+class KoreanTextDelegate extends AssetPickerTextDelegate {
+  const KoreanTextDelegate();
 
   @override
-  String cancel = '취소';
+  String get confirm => '선택';
 
   @override
-  String edit = '편집';
+  String get cancel => '취소';
 
   @override
-  String gifIndicator = 'GIF';
+  String get edit => '편집';
 
   @override
-  String heicNotSupported = 'Unsupported HEIC asset type.';
+  String get gifIndicator => 'GIF';
 
   @override
-  String loadFailed = 'Load failed';
+  String get loadFailed => 'Load failed';
 
   @override
-  String original = '원본';
+  String get original => '원본';
 
   @override
-  String preview = '미리보기';
+  String get preview => '미리보기';
 
   @override
-  String select = '선택';
+  String get select => '선택';
 
   @override
-  String unSupportedAssetType = 'Unsupported HEIC asset type.';
+  String get unSupportedAssetType => 'Unsupported HEIC asset type.';
 }
 
-class KoreanCameraPickerTextDelegate implements CameraPickerTextDelegate {
+class KoreanCameraPickerTextDelegate extends CameraPickerTextDelegate {
   factory KoreanCameraPickerTextDelegate() => _instance;
 
   KoreanCameraPickerTextDelegate._internal();
@@ -51,14 +50,14 @@ class KoreanCameraPickerTextDelegate implements CameraPickerTextDelegate {
   String loadFailed = '';
 }
 
-class CustomSortPathDelegate extends CommonSortPathDelegate {
-  const CustomSortPathDelegate();
-  @override
-  void sort(List<AssetPathEntity> list) {
-    for (final AssetPathEntity entity in list) {
-      if (entity.isAll) {
-        entity.name = '전체사진';
-      }
-    }
-  }
-}
+// class CustomSortPathDelegate extends CommonSortPathDelegate {
+//   const CustomSortPathDelegate();
+//   @override
+//   void sort(List<PathWrapper<AssetPathEntity>> list) {
+//     for (final PathWrapper<AssetPathEntity> wrapper in list) {
+//       if (wrapper.path.isAll) {
+//         wrapper.name = '전체사진';
+//       }
+//     }
+//   }
+// }

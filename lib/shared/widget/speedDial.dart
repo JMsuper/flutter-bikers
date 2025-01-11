@@ -17,7 +17,7 @@ class MakeSpeedDial extends StatelessWidget {
       curve: Curves.bounceInOut,
       icon: Icons.add,
       activeIcon: Icons.close,
-      buttonSize: 45,
+      buttonSize: Size(45, 45),
       closeManually: false,
       overlayColor: Colors.black87,
       overlayOpacity: 0.5,

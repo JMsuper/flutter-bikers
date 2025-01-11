@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -41,10 +40,10 @@ class ChooseLocationPage extends StatefulWidget {
 Future urlLauncher(String url) async {
 // Check if URL contains "intent"
   if (url.contains(RegExp('^intent://.*\$'))) {
-    if (await canLaunch(url)) {
-      await launch(url);
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
       print("urlLauncher $url");
-      //return url;
     } else {
       print('Could not launch $url');
     }
@@ -53,14 +52,14 @@ Future urlLauncher(String url) async {
 }
 
 class _ChooseLocationPageState extends State<ChooseLocationPage> {
-  late String mapUrl;
+  late final WebViewController controller;
 
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
-    }
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse('https://flutter-python-623da.web.app/index.html'));
   }
 
   Future<String> getResolvedLink(String url) async {
@@ -100,51 +99,7 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
       body: SizedBox(
         width: size.width,
         height: size.height,
-        child: WebView(
-          initialUrl: 'https://flutter-python-623da.web.app/index.html',
-          javascriptMode: JavascriptMode.unrestricted,
-          javascriptChannels: Set.from([
-            JavascriptChannel(
-                name: "kakaoMapLocation",
-                // result = [lat, lng, 지번주소]
-                onMessageReceived: (JavascriptMessage result) {
-                  print("message get mapLocation");
-                  print(result.message);
-                  var dataList = result.message.split(",");
-                  String mapUrl =
-                      "https://flutter-python-623da.web.app/staticMap.html\?lat=" +
-                          dataList[0] +
-                          "&lng=" +
-                          dataList[1];
-                  List<String> returnList = [
-                    mapUrl,
-                    dataList[2],
-                    dataList[0],
-                    dataList[1]
-                  ];
-                  Navigator.pop(context, returnList);
-                }),
-            // JavascriptChannel(
-            //     name: "kakaoMapUrl",
-            //     onMessageReceived: (JavascriptMessage result) async {
-            //       var url = await getMapScreenURL(result.message);
-            //       //var url = result.message;
-            //       print(url);
-            //       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            //         return DetailMap(url);
-            //       }));
-            //     })
-          ]),
-          navigationDelegate: (NavigationRequest request) async {
-            if (request.url.startsWith('intent://')) {
-              print('blocking navigation to $request');
-              await urlLauncher(request.url);
-              return NavigationDecision.prevent;
-            }
-            print('allowing navigation to $request');
-            return NavigationDecision.navigate;
-          },
-        ),
+        child: WebViewWidget(controller: controller),
       ),
     );
   }

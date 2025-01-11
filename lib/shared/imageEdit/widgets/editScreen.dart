@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:extended_image/extended_image.dart' hide FileImage;
+import 'package:extended_image/extended_image.dart';
 import '/provider/imageEditProvider.dart';
 import 'package:provider/provider.dart';
 

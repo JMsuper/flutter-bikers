@@ -32,6 +32,16 @@ class _NewFeedTourState extends State<NewFeedTour> {
   final titleController = TextEditingController();
   final textController = TextEditingController();
 
+  late final WebViewController mapController;
+
+  @override
+  void initState() {
+    super.initState();
+    mapController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(mapUrl));
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -45,7 +55,7 @@ class _NewFeedTourState extends State<NewFeedTour> {
 
   void _showDatePicker(DateTime _date) async {
     DateController.to.changeColor();
-    await DatePicker.showDatePicker(
+    await DatePickerBdaya.showDatePicker(
       context,
       minTime: DateTime.parse(MIN_DATETIME),
       maxTime: DateTime.parse(MAX_DATETIME),
@@ -60,7 +70,7 @@ class _NewFeedTourState extends State<NewFeedTour> {
 
   void _showTimePicker(DateTime _time) async {
     TimeController.to.changeColor();
-    await DatePicker.showTime12hPicker(
+    await DatePickerBdaya.showTime12hPicker(
       context,
       currentTime: _time,
       locale: LocaleType.ko,
@@ -409,7 +419,7 @@ class _NewFeedTourState extends State<NewFeedTour> {
                           print(dataList[i]);
                         }
                         webviewController.future.then(
-                            (controller) => controller.loadUrl(dataList[0]));
+                            (controller) => controller.loadRequest(Uri.parse(dataList[0])));
                         LocationController.to.updateLocation(
                             dataList[1], dataList[2], dataList[3]);
                       }
@@ -424,13 +434,8 @@ class _NewFeedTourState extends State<NewFeedTour> {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(25),
                             child: AbsorbPointer(
-                              child: WebView(
-                                initialUrl: mapUrl,
-                                javascriptMode: JavascriptMode.unrestricted,
-                                onWebViewCreated: (controller) {
-                                  webviewController.complete(controller);
-                                  // webViewController = controller;
-                                },
+                              child: WebViewWidget(
+                                controller: mapController,
                               ),
                             ))),
                   ),
