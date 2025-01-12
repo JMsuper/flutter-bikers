@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^3.10.2",
+    "socket.io": "^2.4.1"
+  },
+  "devDependencies": {
+    "bufferutil": "^4.0.4",
+    "utf-8-validate": "^5.0.6"
+  }
+}
