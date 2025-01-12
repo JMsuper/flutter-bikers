@@ -252,8 +252,8 @@ class _SignUpState extends State<SignUp> {
                                           name: _nameController.text,
                                           birth: _birthDayController.text,
                                           sex: genderChoice == 0
-                                              ? "male"
-                                              : "female"));
+                                              ? 'M'
+                                              : 'F'));
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(

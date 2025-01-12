@@ -18,8 +18,8 @@ class Tour {
   final String writerId;
   final String title;
   final String contents;
-  final double regionLat;
-  final double regionLng;
+  final String regionLat;
+  final String regionLng;
   final DateTime startDate;
   final int memberNum;
   int likeCount;
@@ -66,8 +66,8 @@ class Tour {
         writerId: json["writer_id"],
         title: json["title"],
         contents: json["contents"],
-        regionLat: json["region_lat"].toDouble(),
-        regionLng: json["region_lng"].toDouble(),
+        regionLat: json["region_lat"],
+        regionLng: json["region_lng"],
         startDate: DateTime.parse(json["start_date"]),
         memberNum: json["member_num"],
         likeCount: json["like_count"],

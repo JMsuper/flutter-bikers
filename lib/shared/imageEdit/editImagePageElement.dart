@@ -7,6 +7,7 @@ import '/provider/imageEditProvider.dart';
 import 'dart:typed_data';
 import 'dart:io';
 import 'package:image_editor/image_editor.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 Future<File?> saveCroppedImage(
     {required ExtendedImageEditorState state}) async {
@@ -40,23 +41,38 @@ Future<File?> saveCroppedImage(
   return result;
 }
 
-Future pickGallery(
+Future<void> pickGallery(
     BuildContext context, List<AssetEntity>? remainList, int maxAssets) async {
-  List<AssetEntity>? assets = [];
+  // 권한 체크
+  final PermissionState ps = await PhotoManager.requestPermissionExtend();
+  if (!ps.hasAccess) {
+    // 권한이 없는 경우 처리
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('갤러리 접근 권한이 필요합니다')),
+      );
+      return;
+    }
+  }
 
-  assets = await AssetPicker.pickAssets(
-    context,
-    pickerConfig: AssetPickerConfig(
-      maxAssets: maxAssets,
-      selectedAssets: remainList,
-      gridCount: 3,
-      pageSize: 81,
-      requestType: RequestType.image,
-      specialPickerType: SpecialPickerType.noPreview,
-      sortPathDelegate: const CommonSortPathDelegate(),
-      textDelegate: KoreanTextDelegate(),
-    ),
-  );
+  // 기존 코드 유지
+  List<AssetEntity>? assets = [];
+  
+  if (context.mounted) {
+    assets = await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        maxAssets: maxAssets,
+        selectedAssets: remainList,
+        gridCount: 3,
+        pageSize: 81,
+        requestType: RequestType.image,
+        specialPickerType: SpecialPickerType.noPreview,
+        sortPathDelegate: const CommonSortPathDelegate(),
+        textDelegate: KoreanTextDelegate(),
+      ),
+    );
+  }
   // pickAssets()에서 뒤로가기를 누르면 null을 반환한다.
   if (assets == null) {
     Navigator.of(context).pop();

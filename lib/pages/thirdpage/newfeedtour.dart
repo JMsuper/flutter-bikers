@@ -120,8 +120,10 @@ class _NewFeedTourState extends State<NewFeedTour> {
                           writerId: user!.uid,
                           title: titleController.text,
                           contents: textController.text,
-                          regionLat: LocationController.to.lat,
-                          regionLng: LocationController.to.lng,
+                          // regionLat: LocationController.to.lat,
+                          // regionLng: LocationController.to.lng,
+                          regionLat: "35.158918",
+                          regionLng: "35.158918",
                           startDate: dateTime,
                           memberNum: MemberController.to.count.toString());
                       print(json.encode(dataToMap));

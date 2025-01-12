@@ -13,6 +13,7 @@ import '/provider/imageEditProvider.dart';
 import '/shared/imageEdit/editImageCameraPage.dart';
 import '/shared/imageEdit/editImageGalleryPage.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class NewFeed extends StatefulWidget {
   @override
@@ -59,9 +60,26 @@ class _NewFeedState extends State<NewFeed> {
     }
   }
 
-  Future checkPermission() async {
-    var status = await Permission.storage.status;
-    return status.isGranted;
+  Future<bool> checkPermission() async {
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      if (androidInfo.version.sdkInt >= 33) {
+        // Android 13 이상에서는 photos, videos 권한 사용
+        final photos = await Permission.photos.status;
+        final videos = await Permission.videos.status;
+        
+        if (!photos.isGranted || !videos.isGranted) {
+          final results = await [
+            Permission.photos,
+            Permission.videos,
+          ].request();
+          return results[Permission.photos]!.isGranted && 
+                 results[Permission.videos]!.isGranted;
+        }
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
