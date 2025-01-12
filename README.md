@@ -24,57 +24,9 @@
     - WebSocket 기반
 
 ### 구현 화면
-<div align="center">
-  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px;">
-    <div style="text-align: center">
-      <img src="img/login.png" width="150" />
-      <p style="max-width: 150px; margin: 10px auto; height: 40px; line-height: 1.2">
-        로그인 화면<br/>Firebase Auth 기반 문자 인증
-      </p>
-    </div>
-    <div style="text-align: center">
-      <img src="img/feed.png" width="150" />
-      <p style="max-width: 150px; margin: 10px auto; height: 40px; line-height: 1.2">
-        메인화면<br/>바이크 관련 게시글 피드
-      </p>
-    </div>
-    <div style="text-align: center">
-      <img src="img/goods_post.png" width="150" />
-      <p style="max-width: 150px; margin: 10px auto; height: 40px; line-height: 1.2">
-        상품 화면<br/>중고 거래
-      </p>
-    </div>
-    <div style="text-align: center">
-      <img src="img/goods_detail.png" width="150" />
-      <p style="max-width: 150px; margin: 10px auto; height: 40px; line-height: 1.2">
-        상품 상세 화면<br/>중고 거래
-      </p>
-    </div>
-    <div style="text-align: center">
-      <img src="img/new_goods.png" width="150" />
-      <p style="max-width: 150px; margin: 10px auto; height: 40px; line-height: 1.2">
-        상품 등록 화면<br/>중고 거래
-      </p>
-    </div>
-    <div style="text-align: center">
-      <img src="img/tour_post.png" width="150" />
-      <p style="max-width: 150px; margin: 10px auto; height: 40px; line-height: 1.2">
-        투어 모임<br/>모임 게시글 피드
-      </p>
-    </div>
-    <div style="text-align: center">
-      <img src="img/bottom_toggle.png" width="150" />
-      <p style="max-width: 150px; margin: 10px auto; height: 40px; line-height: 1.2">
-        하단 탭 메뉴<br/>홈, 중고거래, 투어모임
-      </p>
-    </div>
-    <div style="text-align: center">
-      <img src="img/new_tour.png" width="150" />
-      <p style="max-width: 150px; margin: 10px auto; height: 40px; line-height: 1.2">
-        투어 모임 등록 화면<br/>카카오맵 API 연동
-      </p>
-    </div>
-  </div>
-</div>
 
-
+|![로그인](img/login.png)|![메인화면](img/feed.png)|![상품화면](img/goods_post.png)|![상품상세](img/goods_detail.png)|
+|:---:|:---:|:---:|:---:|
+|로그인 화면<br/>Firebase Auth 기반 문자 인증|메인화면<br/>바이크 관련 게시글 피드|상품 화면<br/>중고 거래|상품 상세 화면<br/>중고 거래|
+|![상품등록](img/new_goods.png)|![투어모임](img/tour_post.png)|![하단메뉴](img/bottom_toggle.png)|![투어등록](img/new_tour.png)|
+|상품 등록 화면<br/>중고 거래|투어 모임<br/>모임 게시글 피드|하단 탭 메뉴<br/>홈, 중고거래, 투어모임|투어 모임 등록 화면<br/>카카오맵 API 연동|
