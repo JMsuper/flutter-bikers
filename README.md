@@ -7,10 +7,10 @@
 
 ### 🛠 사용 기술
 - Flutter 3.0
-- Node.js
+- Node.js 16
 - Express.js
 - Socket.io
-- MySQL 5.7
+- MySQL 8.0
 - Firebase Authentication
 - Firebase Storage
 
